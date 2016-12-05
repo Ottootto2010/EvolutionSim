@@ -31,7 +31,6 @@ public class sim {
 		test_population.generateNewPopulation();
 		
 		test_population.runGeneration();
-		
 		//test_population.printPopulationGenome();
 		//for (int a = 0; a < 10000; a ++) {
 		//	test_population.runEvolution();
