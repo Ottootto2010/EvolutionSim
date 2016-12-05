@@ -47,7 +47,7 @@ public class Population{
 	
 	public void runGeneration() {
 		System.out.println("Generation " + current_generation);
-		//evaluatePopulation();
+		evaluatePopulation();
 		System.out.println("Starting Selection...");
 		ArrayList<Creature> selected_creatures = proportionateSelect();
 		System.out.println("Done!");
