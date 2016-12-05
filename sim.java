@@ -31,16 +31,12 @@ public class sim {
 		test_population.generateNewPopulation();
 		
 		test_population.runGeneration();
-		//test_population.printPopulationGenome();
-		//for (int a = 0; a < 10000; a ++) {
-		//	test_population.runEvolution();
-		//}
-		// test_population.getReport();
-		// System.out.println("Min" + test_population.statistic_min);
-		// System.out.println("Max" + test_population.statistic_max);
-		// System.out.println("Mean" + test_population.statistic_mean);
 		
-		// writeReportToCvs(test_population);
+		for (int a = 0; a < 10; a ++) {
+			test_population.runGeneration();
+		}
+
+		writeReportToCvs(test_population);
 	}
 	
 	public static void writeAllCreaturesReportToCvs(Population population) {
@@ -76,7 +72,7 @@ public class sim {
 		ArrayList<Double> average_area = new ArrayList<Double>();
 		ArrayList<Double> max = new ArrayList<Double>();
 		ArrayList<Double> min = new ArrayList<Double>();
-		for (int i = 0; i < population.statistic_max.size(); i ++) {
+		/*for (int i = 0; i < population.statistic_max.size(); i ++) {
 			average.add(Arrays.asList(population.population_history.get(i)).
 					stream().mapToDouble(Creature -> Creature.returnFittness()).average().getAsDouble());
 			average_vol.add(Arrays.asList(population.population_history.get(i)).
@@ -85,24 +81,23 @@ public class sim {
 					stream().mapToDouble(Creature -> Creature.getTempLoss()).average().getAsDouble());
 			average_area.add(Arrays.asList(population.population_history.get(i)).
 					stream().mapToDouble(Creature -> Creature.getArea()).average().getAsDouble());
-			max.add(Collections.max(Arrays.asList(population.population_history.get(i))).returnFittness());
-			min.add(Collections.min(Arrays.asList(population.population_history.get(i))).returnFittness());
-		}
+			//max.add(Collections.max(Arrays.asList(population.population_history.get(i))).returnFittness());
+			//min.add(Collections.min(Arrays.asList(population.population_history.get(i))).returnFittness());
+		}*/
 		
 		try{
 		    PrintWriter writer = new PrintWriter(outputfile, "UTF-8");
-		    writer.println("Min,Max,Mean,Average,Mean Volume,Average Volume,"
-		    		+ "Mean Temperature Loss,Average Temperature Loss,Average Area");
+		    writer.println("Min,Max,Mean,Mean Volume,Mean Temperature Loss");
 		    for (int row = 0; row < population.statistic_max.size(); row++) {
-		    	writer.print(min.get(row) + ",");
-		    	writer.print(max.get(row) + ",");
+		    	writer.print(population.statistic_min.get(row) + ",");
+		    	writer.print(population.statistic_max.get(row) + ",");
 		    	writer.print(population.statistic_mean.get(row) + ",");
-		    	writer.print(average.get(row) + ",");
+		    	//writer.print(average.get(row) + ",");
 		    	writer.print(population.statistic_mean_creature.get(row).getVolume() + ",");
-		    	writer.print(average_vol.get(row) + ",");
+		    	//writer.print(average_vol.get(row) + ",");
 		    	writer.println(population.statistic_mean_creature.get(row).getTempLoss() + ",");
-		    	writer.print(average_tempLoss.get(row) + ",");
-		    	writer.print(average_area.get(row) + ",");
+		    	//writer.print(average_tempLoss.get(row) + ",");
+		    	//writer.print(average_area.get(row) + ",");
 		    }
 		    writer.close();
 		} catch (IOException e) {

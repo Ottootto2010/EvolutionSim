@@ -4,7 +4,14 @@ import java.util.Comparator;
 import java.util.Random;
 
 public class Population{
-	int POPULATION_SIZE = 100;
+	int POPULATION_SIZE = 6;
+	int current_generation = 0;
+	
+	ArrayList<Double> statistic_max;
+	ArrayList<Double> statistic_min;
+	ArrayList<Double> statistic_mean;
+	ArrayList<Double> statistic_average;
+	ArrayList<Creature> statistic_mean_creature;
 
 	ArrayList<Creature> creatures = new ArrayList<Creature>();
 	ArrayList<ArrayList<Creature>> population_history =
@@ -18,8 +25,12 @@ public class Population{
 			}
 		}
 	
-	private ArrayList<Creature> order(ArrayList<Creature> array){
+	public void evaluateFitness(ArrayList<Creature> array) {
 		for (Creature c: array) c.getFittness();
+	}
+	
+	private ArrayList<Creature> order(ArrayList<Creature> array){
+		evaluateFitness(array);
 		Collections.sort(array, new Comparator<Creature>() {
 			public int compare(Creature c1, Creature c2) {
 				if (c1.returnFittness() == c2.returnFittness()) {
@@ -35,12 +46,27 @@ public class Population{
 	}
 	
 	public void runGeneration() {
-		printPopulation();
+		System.out.println("Generation " + current_generation);
+		//evaluatePopulation();
+		System.out.println("Starting Selection...");
 		ArrayList<Creature> selected_creatures = proportionateSelect();
+		System.out.println("Done!");
+		System.out.println("Starting Crossover and Mutation...");
 		ArrayList<Creature> evolved_creatures = 
 				mateAndMutate(selected_creatures);
 		creatures = evolved_creatures;
-		printPopulation();
+		System.out.println("Done!");
+		System.out.println(Collections.max(creatures));
+		current_generation ++;
+	}
+	
+	private void evaluatePopulation() {
+		evaluateFitness(creatures);
+		population_history.add(creatures);
+		statistic_max.add(Collections.max(creatures).returnFittness());
+		statistic_min.add(Collections.min(creatures).returnFittness());
+		statistic_mean.add(creatures.get(creatures.size()/2).returnFittness());
+		statistic_mean_creature.add(creatures.get(creatures.size()/2));
 	}
 	
 	private ArrayList<Creature> mateAndMutate(
@@ -55,7 +81,8 @@ public class Population{
 		new_generation.addAll(selected_survivors);
 		
 		for (int n = selected_survivors.size() - 1;
-				n < new_generation.size(); n++) {
+				n < POPULATION_SIZE; n++) {
+			System.out.println("Mating Round " + n);
 			Random rand = new Random();
 			boolean has_mated = false;
 			double[] new_genome = new double[Creature.GENOME_LEN];
@@ -68,6 +95,7 @@ public class Population{
 				
 				if (c1 != c2) {
 					for (int gen = 0; gen < Creature.GENOME_LEN; gen++) {
+						System.out.println("Gen " + gen  + "/" + (Creature.GENOME_LEN - 1));
 						if (!mutation && gen < GENE_SPLIT) {
 							new_genome[gen] = 
 									selected_survivors.get(c1).genome[gen];
