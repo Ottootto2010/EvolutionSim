@@ -2,15 +2,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.stream.Stream;
 
 public class Population{
-	int POPULATION_SIZE = 6;
+	int POPULATION_SIZE = 100;
 	int current_generation = 0;
 	
 	ArrayList<Double> statistic_max = new ArrayList<Double>();
 	ArrayList<Double> statistic_min = new ArrayList<Double>();
 	ArrayList<Double> statistic_mean = new ArrayList<Double>();
 	ArrayList<Double> statistic_average = new ArrayList<Double>();
+	ArrayList<Double> statistic_average_volume = new ArrayList<Double>();
+	ArrayList<Double> statistic_average_x = new ArrayList<Double>();
+	ArrayList<Double> statistic_average_y = new ArrayList<Double>();
+	ArrayList<Double> statistic_average_z = new ArrayList<Double>();
 	ArrayList<Creature> statistic_mean_creature = new ArrayList<Creature>();
 
 	ArrayList<Creature> creatures = new ArrayList<Creature>();
@@ -71,6 +76,36 @@ public class Population{
 		statistic_min.add(min);
 		statistic_mean.add(creatures.get(creatures.size()/2).returnFittness());
 		statistic_mean_creature.add(creatures.get(creatures.size()/2));
+		
+		double sum_of_fitness = 0;
+		for (int i = 0; i < tmp.size() - 1; i ++) {
+			sum_of_fitness += tmp.get(i).returnFittness();
+		}
+		statistic_average.add(sum_of_fitness/(tmp.size() - 1));
+		
+		double sum_of_volume = 0;
+		for (int i = 0; i < tmp.size() - 1; i ++) {
+			sum_of_volume += tmp.get(i).getVolume();
+		}
+		statistic_average_volume.add(sum_of_volume/(tmp.size() - 1));
+		
+		double sum_of_x = 0;
+		for (int i = 0; i < tmp.size() - 1; i ++) {
+			sum_of_x += tmp.get(i).genome[0];
+		}
+		statistic_average_x.add(sum_of_x/(tmp.size() - 1));
+		
+		double sum_of_y = 0;
+		for (int i = 0; i < tmp.size() - 1; i ++) {
+			sum_of_y += tmp.get(i).genome[1];
+		}
+		statistic_average_y.add(sum_of_y/(tmp.size() - 1));
+		
+		double sum_of_z = 0;
+		for (int i = 0; i < tmp.size() - 1; i ++) {
+			sum_of_z += tmp.get(i).genome[2];
+		}
+		statistic_average_z.add(sum_of_z/(tmp.size() - 1));
 	}
 	
 	private ArrayList<Creature> mateAndMutate(
@@ -80,7 +115,7 @@ public class Population{
 				new ArrayList<Creature>(POPULATION_SIZE);
 		
 		int GENE_SPLIT = (int) Creature.GENOME_LEN/2;
-		double MUTATION_RATE = 0.1; //%
+		double MUTATION_RATE = 0.5; //%
 		
 		new_generation.addAll(selected_survivors);
 		
@@ -96,7 +131,7 @@ public class Population{
 				int c2 = rand.nextInt(selected_survivors.size());
 				boolean mutation =
 						(rand.nextDouble() < MUTATION_RATE) ? true:false;
-				
+
 				if (c1 != c2) {
 					for (int gen = 0; gen < Creature.GENOME_LEN; gen++) {
 						System.out.println("Gen " + gen  + "/" + (Creature.GENOME_LEN - 1));
@@ -132,7 +167,7 @@ public class Population{
 	}
 	
 	private ArrayList<Creature> proportionateSelect() {
-		double SELECTION_RATE = 0.5; //%
+		double SELECTION_RATE = 0.333; //%
 		ArrayList<Creature> tmp = new ArrayList<Creature>();
 		creatures = order(creatures);
 		

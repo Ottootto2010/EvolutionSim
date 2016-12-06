@@ -11,10 +11,10 @@ import java.lang.Comparable;
 
 public class Creature implements Comparable<Creature>{
 	// Minimum and Maximum Size of Creature (per dimension)
-	static double MIN_SIZE = 0.0001; // m
-	static double MAX_SIZE_X = 5; // m
-	static double MAX_SIZE_Y = 5; // m
-	static double MAX_SIZE_Z = 5; // m
+	static double MIN_SIZE = 0.5; // m
+	static double MAX_SIZE_X = 10; // m
+	static double MAX_SIZE_Y = 10; // m
+	static double MAX_SIZE_Z = 10; // m
 	static int GENOME_LEN = 3;
 	
 	static double FOOD_AVAILABLE = 20000.0; // kcal
@@ -119,7 +119,13 @@ public class Creature implements Comparable<Creature>{
 	
 	public void generate(double[] genome) {
 		this.genome = genome;
-		setSize(this.genome[0], this.genome[1], this.genome[2]);
+		if (isSizeOk(genome[0], genome[1], genome[2])) {
+			setSize(this.genome[0], this.genome[1], this.genome[2]);
+		}
+		else {
+			Random rand = new Random();
+			randomlyGenerate(rand);
+		}
 	}
 	
 	public void setSize(double x, double y, double z) {

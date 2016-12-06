@@ -87,15 +87,18 @@ public class sim {
 		
 		try{
 		    PrintWriter writer = new PrintWriter(outputfile, "UTF-8");
-		    writer.println("Min,Max,Mean,Mean Volume,Mean Temperature Loss");
+		    writer.println("Min,Max,Mean,Average,Mean Volume,Average Volume,Average X,Average Y,Average Z");
 		    for (int row = 0; row < population.statistic_max.size(); row++) {
 		    	writer.print(population.statistic_min.get(row) + ",");
 		    	writer.print(population.statistic_max.get(row) + ",");
 		    	writer.print(population.statistic_mean.get(row) + ",");
-		    	//writer.print(average.get(row) + ",");
+		    	writer.print(population.statistic_average.get(row) + ",");
 		    	writer.print(population.statistic_mean_creature.get(row).getVolume() + ",");
-		    	//writer.print(average_vol.get(row) + ",");
-		    	writer.println(population.statistic_mean_creature.get(row).getTempLoss() + ",");
+		    	writer.print(population.statistic_average_volume.get(row) + ",");
+		    	// writer.println(population.statistic_mean_creature.get(row).getTempLoss() + ",");
+		    	writer.print(population.statistic_average_x.get(row) + ",");
+		    	writer.print(population.statistic_average_y.get(row) + ",");
+		    	writer.println(population.statistic_average_z.get(row) + ",");
 		    	//writer.print(average_tempLoss.get(row) + ",");
 		    	//writer.print(average_area.get(row) + ",");
 		    }
