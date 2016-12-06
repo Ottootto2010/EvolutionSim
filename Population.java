@@ -7,11 +7,11 @@ public class Population{
 	int POPULATION_SIZE = 6;
 	int current_generation = 0;
 	
-	ArrayList<Double> statistic_max;
-	ArrayList<Double> statistic_min;
-	ArrayList<Double> statistic_mean;
-	ArrayList<Double> statistic_average;
-	ArrayList<Creature> statistic_mean_creature;
+	ArrayList<Double> statistic_max = new ArrayList<Double>();
+	ArrayList<Double> statistic_min = new ArrayList<Double>();
+	ArrayList<Double> statistic_mean = new ArrayList<Double>();
+	ArrayList<Double> statistic_average = new ArrayList<Double>();
+	ArrayList<Creature> statistic_mean_creature = new ArrayList<Creature>();
 
 	ArrayList<Creature> creatures = new ArrayList<Creature>();
 	ArrayList<ArrayList<Creature>> population_history =
@@ -62,9 +62,13 @@ public class Population{
 	
 	private void evaluatePopulation() {
 		evaluateFitness(creatures);
-		population_history.add(creatures);
-		statistic_max.add(Collections.max(creatures).returnFittness());
-		statistic_min.add(Collections.min(creatures).returnFittness());
+		ArrayList<Creature> tmp = order(creatures);
+		
+		population_history.add(tmp);
+		double max = creatures.get(0).returnFittness();
+		statistic_max.add(max);
+		double min = creatures.get(creatures.size() - 1).returnFittness();
+		statistic_min.add(min);
 		statistic_mean.add(creatures.get(creatures.size()/2).returnFittness());
 		statistic_mean_creature.add(creatures.get(creatures.size()/2));
 	}

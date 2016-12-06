@@ -32,7 +32,7 @@ public class sim {
 		
 		test_population.runGeneration();
 		
-		for (int a = 0; a < 10; a ++) {
+		for (int a = 0; a < 100; a ++) {
 			test_population.runGeneration();
 		}
 
@@ -48,8 +48,8 @@ public class sim {
 		try{
 			PrintWriter writer = new PrintWriter(outputfile, "UTF-8");
 			for (int generation = 0; generation < population.current_generation; generation ++) {
-				for (int individual = 0; individual < population.population_history.get(generation).length; individual++) {
-					writer.print(population.population_history.get(generation)[individual].returnFittness() + ", ");
+				for (int individual = 0; individual < population.population_history.get(generation).size(); individual++) {
+					writer.print(population.population_history.get(generation).get(individual).returnFittness() + ", ");
 				}
 				writer.println();
 			}
